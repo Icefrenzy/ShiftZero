@@ -15,6 +15,8 @@ var objects;
             this.sound = "thunder";
             this.reset();
             this.isHarmful = true;
+            this.isFriendly = false;
+            this.isActive = true;
         }
         // PUBLIC METHODS ++++++++++++++++++++++++++++++++++++++++++
         Cloud.prototype.update = function () {

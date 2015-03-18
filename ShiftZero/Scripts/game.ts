@@ -10,6 +10,7 @@
 /// <reference path="objects/power.ts" />
 /// <reference path="objects/cloud.ts" />
 /// <reference path="objects/ocean.ts" />
+/// <reference path="objects/playerbulletmanager.ts" />
 
 
 
@@ -24,6 +25,7 @@ var assetLoader: createjs.LoadQueue;
 var score: number;
 var icen: objects.Icen;
 var power: objects.Power;
+var pbulletmanager: objects.PlayerBulletManager;
 var clouds: objects.Cloud[] = [];
 var ocean: objects.Ocean;
 
@@ -33,11 +35,14 @@ var manifest = [
     { id: "ocean", src: "assets/images/Ocean_Layer1.png" },
     { id: "clouds", src: "assets/images/Cloud_Layer1.png" },
     { id: "icen", src: "assets/images/Icen.png" },
+    { id: "bullet", src: "assets/images/Bullet.png" },
+    { id: "manager", src: "assets/images/Manager.png" },
     { id: "plane", src: "assets/images/plane.png" },
     { id: "engine", src: "assets/audio/engines.ogg" },
     { id: "engineslow", src: "assets/audio/engineslow.ogg" },
     { id: "pick", src: "assets/audio/pickup.ogg" },
     { id: "ost1", src: "assets/audio/OST1.ogg" },
+    { id: "fire", src: "assets/audio/50cal.ogg" },
     { id: "thunder", src: "assets/audio/thunder.ogg" }
 ];
 
@@ -81,7 +86,7 @@ function checkCollision(collider: objects.GameObject) {
     if (theDistance < ((icen.height * 0.5) + (collider.height * 0.5))) {
         if (collider.isColliding != true) {
             createjs.Sound.play(collider.sound);
-            if (!collider.isHarmful) {
+            if (!collider.isHarmful && collider.isActive) {
                 score += 1;
                 console.log("Score: " + score);
             }
@@ -104,6 +109,8 @@ function gameLoop() {
     power.update();
 
     icen.update();
+
+    pbulletmanager.update(icen.x,icen.y);
 
     for (var cloud = 2; cloud >= 0; cloud--) {
         clouds[cloud].update();
@@ -143,10 +150,20 @@ function main() {
     power = new objects.Power();
     stage.addChild(power);
 
-
+    
     //Player Icen object
     icen = new objects.Icen();
+    pbulletmanager = new objects.PlayerBulletManager(icen.x, icen.y);
+    for (var b = 0; b < 20; b++) {
+        pbulletmanager.bullets[b] = new objects.Bullet();
+        stage.addChild(pbulletmanager.bullets[b]);
+    }
+    
+    
     stage.addChild(icen);
+    stage.addChild(pbulletmanager);
+    pbulletmanager.addEventListener("pressmove", pbulletmanager.mouseon);
+    pbulletmanager.addEventListener("pressup", pbulletmanager.mouseout);
 
     stage.addChild(ocean.cloudoverlay);
     stage.addChild(ocean.secondarycloudoverlay);

@@ -16,13 +16,15 @@ var objects;
             this._dx = 5;
             this.isHarmful = false;
             this.reset();
+            this.isFriendly = true;
+            this.isActive = true;
         }
         // PUBLIC METHODS ++++++++++++++++++++++++++++++++++++++++++
         Power.prototype.update = function () {
             this.x -= this._dx;
             this._checkBounds();
         };
-        // Reset position of island to the top
+        // Reset position of powerup to the top
         Power.prototype.reset = function () {
             this.x = 800;
             //this.y = 0;

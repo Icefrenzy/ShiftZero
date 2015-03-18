@@ -63,10 +63,12 @@
   <ItemGroup>
     <Content Include="assets\images\1945.bmp" />
     <Content Include="assets\images\AmmoPick.png" />
+    <Content Include="assets\images\Bullet.png" />
     <Content Include="assets\images\cloud.png" />
     <Content Include="assets\images\Cloud_Layer1.png" />
     <Content Include="assets\images\Icen.png" />
     <Content Include="assets\images\island.png" />
+    <Content Include="assets\images\Manager.png" />
     <Content Include="assets\images\Ocean_Layer1.png" />
     <Content Include="assets\images\plane.png" />
     <Content Include="assets\images\sideplane.gif" />
@@ -85,6 +87,7 @@
     <Content Include="assets\audio\engineslow.ogg" />
     <Content Include="assets\audio\pickup.ogg" />
     <Content Include="assets\audio\OST1.ogg" />
+    <Content Include="assets\audio\50cal.ogg" />
     <None Include="Scripts\_references.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -111,6 +114,7 @@
     <TypeScriptCompile Include="Scripts\objects\gameobject.ts" />
     <TypeScriptCompile Include="Scripts\objects\icen.ts" />
     <TypeScriptCompile Include="Scripts\objects\ocean.ts" />
+    <TypeScriptCompile Include="Scripts\objects\playerbulletmanager.ts" />
     <TypeScriptCompile Include="Scripts\objects\power.ts" />
     <TypeScriptCompile Include="Scripts\typings\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\easeljs\easeljs.d.ts" />

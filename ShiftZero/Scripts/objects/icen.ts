@@ -7,7 +7,6 @@ module objects {
         public height: number;
         public moementumX: number;
         public moementumY: number;
-
         private _verticalspeed: number;
         private _horizontalspeed: number;
         private _soundOutdated: boolean;

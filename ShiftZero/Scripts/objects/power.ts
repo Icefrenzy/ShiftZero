@@ -9,6 +9,8 @@
             this._dx = 5;
             this.isHarmful = false;
             this.reset();
+            this.isFriendly = true;
+            this.isActive = true;
         }
 
         // PUBLIC METHODS ++++++++++++++++++++++++++++++++++++++++++
@@ -18,7 +20,7 @@
             this._checkBounds();
         }
 
-        // Reset position of island to the top
+        // Reset position of powerup to the top
         public reset() {
             this.x = 800;
             //this.y = 0;

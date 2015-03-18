@@ -7,6 +7,8 @@
         public isColliding: boolean = false;
         public sound: string;
         public isHarmful: boolean;
+        public isFriendly: boolean;
+        public isActive: boolean;
         protected _dy: number;
         protected _dx: number;
 
