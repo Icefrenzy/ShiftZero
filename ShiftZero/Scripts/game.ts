@@ -8,7 +8,7 @@
 
 /// <reference path="objects/icen.ts" />
 /// <reference path="objects/power.ts" />
-/// <reference path="objects/cloud.ts" />
+/// <reference path="objects/abyssal1.ts" />
 /// <reference path="objects/ocean.ts" />
 /// <reference path="objects/playerbulletmanager.ts" />
 
@@ -26,11 +26,12 @@ var score: number;
 var icen: objects.Icen;
 var power: objects.Power;
 var pbulletmanager: objects.PlayerBulletManager;
-var clouds: objects.Cloud[] = [];
+var abyssal: objects.Abyssal[] = [];
 var ocean: objects.Ocean;
+var scoretext: createjs.Text;
 
 var manifest = [
-    { id: "cloud", src: "assets/images/cloud.png" },
+    { id: "abyss1", src: "assets/images/Abyss1.png" },
     { id: "power", src: "assets/images/AmmoPick.png" },
     { id: "ocean", src: "assets/images/Ocean_Layer1.png" },
     { id: "clouds", src: "assets/images/Cloud_Layer1.png" },
@@ -43,7 +44,7 @@ var manifest = [
     { id: "pick", src: "assets/audio/pickup.ogg" },
     { id: "ost1", src: "assets/audio/OST1.ogg" },
     { id: "fire", src: "assets/audio/50cal.ogg" },
-    { id: "thunder", src: "assets/audio/thunder.ogg" }
+    { id: "hurt", src: "assets/audio/hurt.ogg" }
 ];
 
 
@@ -81,14 +82,18 @@ function distance(p1: createjs.Point, p2: createjs.Point): number {
 // CHECK COLLISION METHOD
 function checkCollision(collider: objects.GameObject) {
     var icenPosition: createjs.Point = new createjs.Point(icen.x, icen.y);
-    var cloudPosition: createjs.Point = new createjs.Point(collider.x, collider.y);
-    var theDistance = distance(icenPosition, cloudPosition);
+    var abyssPosition: createjs.Point = new createjs.Point(collider.x, collider.y);
+    var theDistance = distance(icenPosition, abyssPosition);
     if (theDistance < ((icen.height * 0.5) + (collider.height * 0.5))) {
         if (collider.isColliding != true) {
             createjs.Sound.play(collider.sound);
             if (!collider.isHarmful && collider.isActive) {
                 score += 1;
                 console.log("Score: " + score);
+                scoretext.text = "Score: " + score;
+            }
+            if (collider.isHarmful && collider.isActive) {
+                console.log("Player is hit!");
             }
         }
         collider.isColliding = true;
@@ -112,10 +117,10 @@ function gameLoop() {
 
     pbulletmanager.update(icen.x,icen.y);
 
-    for (var cloud = 2; cloud >= 0; cloud--) {
-        clouds[cloud].update();
+    for (var abyss = 2; abyss >= 0; abyss--) {
+        abyssal[abyss].update();
 
-        checkCollision(clouds[cloud]);
+        checkCollision(abyssal[abyss]);
     }
 
     checkCollision(power);
@@ -165,19 +170,19 @@ function main() {
     pbulletmanager.addEventListener("pressmove", pbulletmanager.mouseon);
     pbulletmanager.addEventListener("pressup", pbulletmanager.mouseout);
 
+    
+
+    //Enemy object
+    for (var abyss = 2; abyss >= 0; abyss--) {
+        abyssal[abyss] = new objects.Abyssal();
+        stage.addChild(abyssal[abyss]);
+    }
+
     stage.addChild(ocean.cloudoverlay);
     stage.addChild(ocean.secondarycloudoverlay);
 
-    //Cloud object
-    for (var cloud = 2; cloud >= 0; cloud--) {
-        clouds[cloud] = new objects.Cloud();
-        //stage.addChild(clouds[cloud]);
-    }
-
-
-
-    
-    
-
-    
+    scoretext= new createjs.Text("Score: " + score, "26px Arial", "#FFFF00");
+    stage.addChild(scoretext);
+    scoretext.x = 100;
+    scoretext.y = 50;
 }

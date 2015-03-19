@@ -6,7 +6,7 @@
 /// <reference path="objects/gameobject.ts" />
 /// <reference path="objects/icen.ts" />
 /// <reference path="objects/power.ts" />
-/// <reference path="objects/cloud.ts" />
+/// <reference path="objects/abyssal1.ts" />
 /// <reference path="objects/ocean.ts" />
 /// <reference path="objects/playerbulletmanager.ts" />
 // Global game Variables
@@ -18,10 +18,11 @@ var score;
 var icen;
 var power;
 var pbulletmanager;
-var clouds = [];
+var abyssal = [];
 var ocean;
+var scoretext;
 var manifest = [
-    { id: "cloud", src: "assets/images/cloud.png" },
+    { id: "abyss1", src: "assets/images/Abyss1.png" },
     { id: "power", src: "assets/images/AmmoPick.png" },
     { id: "ocean", src: "assets/images/Ocean_Layer1.png" },
     { id: "clouds", src: "assets/images/Cloud_Layer1.png" },
@@ -34,7 +35,7 @@ var manifest = [
     { id: "pick", src: "assets/audio/pickup.ogg" },
     { id: "ost1", src: "assets/audio/OST1.ogg" },
     { id: "fire", src: "assets/audio/50cal.ogg" },
-    { id: "thunder", src: "assets/audio/thunder.ogg" }
+    { id: "hurt", src: "assets/audio/hurt.ogg" }
 ];
 function Preload() {
     assetLoader = new createjs.LoadQueue(); // create a new preloader
@@ -60,14 +61,18 @@ function distance(p1, p2) {
 // CHECK COLLISION METHOD
 function checkCollision(collider) {
     var icenPosition = new createjs.Point(icen.x, icen.y);
-    var cloudPosition = new createjs.Point(collider.x, collider.y);
-    var theDistance = distance(icenPosition, cloudPosition);
+    var abyssPosition = new createjs.Point(collider.x, collider.y);
+    var theDistance = distance(icenPosition, abyssPosition);
     if (theDistance < ((icen.height * 0.5) + (collider.height * 0.5))) {
         if (collider.isColliding != true) {
             createjs.Sound.play(collider.sound);
             if (!collider.isHarmful && collider.isActive) {
                 score += 1;
                 console.log("Score: " + score);
+                scoretext.text = "Score: " + score;
+            }
+            if (collider.isHarmful && collider.isActive) {
+                console.log("Player is hit!");
             }
         }
         collider.isColliding = true;
@@ -82,9 +87,9 @@ function gameLoop() {
     power.update();
     icen.update();
     pbulletmanager.update(icen.x, icen.y);
-    for (var cloud = 2; cloud >= 0; cloud--) {
-        clouds[cloud].update();
-        checkCollision(clouds[cloud]);
+    for (var abyss = 2; abyss >= 0; abyss--) {
+        abyssal[abyss].update();
+        checkCollision(abyssal[abyss]);
     }
     checkCollision(power);
     stage.update(); // Refreshes our stage
@@ -120,10 +125,15 @@ function main() {
     stage.addChild(pbulletmanager);
     pbulletmanager.addEventListener("pressmove", pbulletmanager.mouseon);
     pbulletmanager.addEventListener("pressup", pbulletmanager.mouseout);
+    for (var abyss = 2; abyss >= 0; abyss--) {
+        abyssal[abyss] = new objects.Abyssal();
+        stage.addChild(abyssal[abyss]);
+    }
     stage.addChild(ocean.cloudoverlay);
     stage.addChild(ocean.secondarycloudoverlay);
-    for (var cloud = 2; cloud >= 0; cloud--) {
-        clouds[cloud] = new objects.Cloud();
-    }
+    scoretext = new createjs.Text("Score: " + score, "26px Arial", "#FFFF00");
+    stage.addChild(scoretext);
+    scoretext.x = 100;
+    scoretext.y = 50;
 }
 //# sourceMappingURL=game.js.map

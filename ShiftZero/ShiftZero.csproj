@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\images\1945.bmp" />
+    <Content Include="assets\images\Abyss1.png" />
     <Content Include="assets\images\AmmoPick.png" />
     <Content Include="assets\images\Bullet.png" />
     <Content Include="assets\images\cloud.png" />
@@ -79,7 +80,6 @@
     <Content Include="Scripts\lib\preloadjs-0.6.0.min.js" />
     <Content Include="Scripts\lib\soundjs-0.6.0.min.js" />
     <Content Include="Scripts\lib\tweenjs-0.6.0.min.js" />
-    <Content Include="Scripts\objects\cloud.js" />
     <Content Include="Scripts\objects\gameobject.js" />
     <Content Include="Scripts\objects\ocean.js" />
     <Content Include="packages.config" />
@@ -88,6 +88,7 @@
     <Content Include="assets\audio\pickup.ogg" />
     <Content Include="assets\audio\OST1.ogg" />
     <Content Include="assets\audio\50cal.ogg" />
+    <Content Include="assets\audio\hurt.ogg" />
     <None Include="Scripts\_references.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -98,7 +99,6 @@
     <Content Include="assets\audio\thunder.ogg" />
     <Content Include="assets\audio\yay.ogg" />
     <Content Include="Scripts\game.js.map" />
-    <Content Include="Scripts\objects\cloud.js.map" />
     <Content Include="Scripts\objects\gameobject.js.map" />
     <Content Include="Scripts\objects\ocean.js.map" />
     <None Include="Web.Debug.config">
@@ -110,7 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\game.ts" />
-    <TypeScriptCompile Include="Scripts\objects\cloud.ts" />
+    <TypeScriptCompile Include="Scripts\objects\abyssal1.ts" />
     <TypeScriptCompile Include="Scripts\objects\gameobject.ts" />
     <TypeScriptCompile Include="Scripts\objects\icen.ts" />
     <TypeScriptCompile Include="Scripts\objects\ocean.ts" />

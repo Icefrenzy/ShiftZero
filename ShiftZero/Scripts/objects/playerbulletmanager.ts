@@ -27,6 +27,7 @@
         constructor(px:number,py:number) {
             super("manager");
             this.tpx = px;
+            this.sound = "fire";
             this.tpy = py;
             this.x = px;
             this.y = py;
@@ -76,6 +77,7 @@
                 if (this.timer > 0.1) {
                     this.bulletindex += 1;
                     this.timer = 0;
+                    createjs.Sound.play(this.sound);
                     console.log("Can Fire");
                     if (this.bullets[this.bulletindex].isActive == false) {
                         this.bullets[this.bulletindex].x = this.x;
