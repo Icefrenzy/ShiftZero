@@ -3,30 +3,42 @@
 /// <reference path="typings/tweenjs/tweenjs.d.ts" />
 /// <reference path="typings/soundjs/soundjs.d.ts" />
 /// <reference path="typings/preloadjs/preloadjs.d.ts" />
+/// <reference path="typings/stats/stats.d.ts" />
+/// <reference path="objects/constants.ts" />
 /// <reference path="objects/gameobject.ts" />
+/// <reference path="objects/scoreboard.ts" />
 /// <reference path="objects/icen.ts" />
 /// <reference path="objects/power.ts" />
 /// <reference path="objects/abyssal1.ts" />
 /// <reference path="objects/ocean.ts" />
 /// <reference path="objects/playerbulletmanager.ts" />
+/// <reference path="objects/button.ts" />
+/// <reference path="objects/label.ts" />
+/// <reference path="states/gameplay.ts" />
+/// <reference path="states/gameover.ts" />
+/// <reference path="states/menu.ts" />
 // Global game Variables
 var canvas;
 var stage;
 var assetLoader;
-// Game Objects 
-var score;
-var icen;
-var power;
-var pbulletmanager;
-var abyssal = [];
-var ocean;
-var scoretext;
+var stats = new Stats();
+var currentScore = 0;
+var highScore = 0;
+// Game State Variables
+var currentState;
+var currentStateFunction;
+var stateChanged = false;
+var gamePlay;
+var gameOver;
+var menu;
 var manifest = [
     { id: "abyss1", src: "assets/images/Abyss1.png" },
     { id: "power", src: "assets/images/AmmoPick.png" },
     { id: "ocean", src: "assets/images/Ocean_Layer1.png" },
     { id: "clouds", src: "assets/images/Cloud_Layer1.png" },
     { id: "icen", src: "assets/images/Icen.png" },
+    { id: "playButton", src: "assets/images/playButton.png" },
+    { id: "tryAgainButton", src: "assets/images/tryAgainButton.png" },
     { id: "bullet", src: "assets/images/Bullet.png" },
     { id: "manager", src: "assets/images/Manager.png" },
     { id: "plane", src: "assets/images/plane.png" },
@@ -49,91 +61,46 @@ function init() {
     stage.enableMouseOver(20); // Enable mouse events
     createjs.Ticker.setFPS(60); // 60 frames per second
     createjs.Ticker.addEventListener("tick", gameLoop);
-    this.score = 0;
-    createjs.Sound.play("ost1", { loop: -1 });
-    main();
+    setupStats();
+    currentState = constants.MENU_STATE;
+    changeState(currentState);
 }
-// UTILITY METHODS
-// DISTANCE CHECKING METHOD
-function distance(p1, p2) {
-    return Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2)));
-}
-// CHECK COLLISION METHOD
-function checkCollision(collider) {
-    var icenPosition = new createjs.Point(icen.x, icen.y);
-    var abyssPosition = new createjs.Point(collider.x, collider.y);
-    var theDistance = distance(icenPosition, abyssPosition);
-    if (theDistance < ((icen.height * 0.5) + (collider.height * 0.5))) {
-        if (collider.isColliding != true) {
-            createjs.Sound.play(collider.sound);
-            if (!collider.isHarmful && collider.isActive) {
-                score += 1;
-                console.log("Score: " + score);
-                scoretext.text = "Score: " + score;
-            }
-            if (collider.isHarmful && collider.isActive) {
-                console.log("Player is hit!");
-            }
-        }
-        collider.isColliding = true;
-    }
-    else {
-        collider.isColliding = false;
-    }
+function setupStats() {
+    stats.setMode(0);
+    // align top-left
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '650px';
+    stats.domElement.style.top = '440px';
+    document.body.appendChild(stats.domElement);
 }
 function gameLoop() {
-    this.document.onkeydown = keyPressed;
-    ocean.update();
-    power.update();
-    icen.update();
-    pbulletmanager.update(icen.x, icen.y);
-    for (var abyss = 2; abyss >= 0; abyss--) {
-        abyssal[abyss].update();
-        checkCollision(abyssal[abyss]);
+    stats.begin();
+    if (stateChanged) {
+        changeState(currentState);
+        stateChanged = false;
     }
-    checkCollision(power);
-    stage.update(); // Refreshes our stage
+    else {
+        currentStateFunction.update();
+    }
+    stats.end();
 }
-function keyPressed(event) {
-    switch (event.keyCode) {
-        case 16:
-            if (icen.isSlow)
-                icen.isSlow = false;
-            else
-                icen.isSlow = true;
-            console.log("Icen is slow: " + icen.isSlow);
+function changeState(state) {
+    switch (state) {
+        case constants.MENU_STATE:
+            // instantiate menu screen
+            menu = new states.Menu();
+            currentStateFunction = menu;
+            break;
+        case constants.PLAY_STATE:
+            // instantiate game play screen
+            gamePlay = new states.GamePlay();
+            currentStateFunction = gamePlay;
+            break;
+        case constants.GAME_OVER_STATE:
+            // instantiate game over screen
+            gameOver = new states.GameOver();
+            currentStateFunction = gameOver;
             break;
     }
-}
-// Our Game Kicks off in here
-function main() {
-    //Ocean object
-    ocean = new objects.Ocean();
-    stage.addChild(ocean);
-    stage.addChild(ocean.secondary);
-    //Powerup object
-    power = new objects.Power();
-    stage.addChild(power);
-    //Player Icen object
-    icen = new objects.Icen();
-    pbulletmanager = new objects.PlayerBulletManager(icen.x, icen.y);
-    for (var b = 0; b < 20; b++) {
-        pbulletmanager.bullets[b] = new objects.Bullet();
-        stage.addChild(pbulletmanager.bullets[b]);
-    }
-    stage.addChild(icen);
-    stage.addChild(pbulletmanager);
-    pbulletmanager.addEventListener("pressmove", pbulletmanager.mouseon);
-    pbulletmanager.addEventListener("pressup", pbulletmanager.mouseout);
-    for (var abyss = 2; abyss >= 0; abyss--) {
-        abyssal[abyss] = new objects.Abyssal();
-        stage.addChild(abyssal[abyss]);
-    }
-    stage.addChild(ocean.cloudoverlay);
-    stage.addChild(ocean.secondarycloudoverlay);
-    scoretext = new createjs.Text("Score: " + score, "26px Arial", "#FFFF00");
-    stage.addChild(scoretext);
-    scoretext.x = 100;
-    scoretext.y = 50;
 }
 //# sourceMappingURL=game.js.map

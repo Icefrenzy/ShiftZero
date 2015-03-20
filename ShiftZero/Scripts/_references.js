@@ -6,3 +6,7 @@
 /// <reference path="game.js" />
 /// <reference path="objects/gameobject.js" />
 /// <reference path="objects/ocean.js" />
+/// <reference path="states/gameover.js" />
+/// <reference path="states/gameplay.js" />
+/// <reference path="states/menu.js" />
+/// <reference path="lib/stats.js" />

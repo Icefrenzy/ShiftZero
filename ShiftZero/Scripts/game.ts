@@ -3,32 +3,40 @@
 /// <reference path="typings/tweenjs/tweenjs.d.ts" />
 /// <reference path="typings/soundjs/soundjs.d.ts" />
 /// <reference path="typings/preloadjs/preloadjs.d.ts" />
+/// <reference path="typings/stats/stats.d.ts" />
 
+/// <reference path="objects/constants.ts" />
 /// <reference path="objects/gameobject.ts" />
-
+/// <reference path="objects/scoreboard.ts" />
 /// <reference path="objects/icen.ts" />
 /// <reference path="objects/power.ts" />
 /// <reference path="objects/abyssal1.ts" />
 /// <reference path="objects/ocean.ts" />
 /// <reference path="objects/playerbulletmanager.ts" />
+/// <reference path="objects/button.ts" />
+/// <reference path="objects/label.ts" />
 
-
+/// <reference path="states/gameplay.ts" />
+/// <reference path="states/gameover.ts" />
+/// <reference path="states/menu.ts" />
 
 
 // Global game Variables
 var canvas;
 var stage: createjs.Stage;
 var assetLoader: createjs.LoadQueue;
+var stats: Stats = new Stats();
+var currentScore = 0;
+var highScore = 0;
 
+// Game State Variables
+var currentState: number;
+var currentStateFunction: any;
+var stateChanged: boolean = false;
 
-// Game Objects 
-var score: number;
-var icen: objects.Icen;
-var power: objects.Power;
-var pbulletmanager: objects.PlayerBulletManager;
-var abyssal: objects.Abyssal[] = [];
-var ocean: objects.Ocean;
-var scoretext: createjs.Text;
+var gamePlay: states.GamePlay;
+var gameOver: states.GameOver;
+var menu: states.Menu;
 
 var manifest = [
     { id: "abyss1", src: "assets/images/Abyss1.png" },
@@ -36,6 +44,8 @@ var manifest = [
     { id: "ocean", src: "assets/images/Ocean_Layer1.png" },
     { id: "clouds", src: "assets/images/Cloud_Layer1.png" },
     { id: "icen", src: "assets/images/Icen.png" },
+    { id: "playButton", src: "assets/images/playButton.png" },
+    { id: "tryAgainButton", src: "assets/images/tryAgainButton.png" },
     { id: "bullet", src: "assets/images/Bullet.png" },
     { id: "manager", src: "assets/images/Manager.png" },
     { id: "plane", src: "assets/images/plane.png" },
@@ -65,124 +75,57 @@ function init() {
     stage.enableMouseOver(20); // Enable mouse events
     createjs.Ticker.setFPS(60); // 60 frames per second
     createjs.Ticker.addEventListener("tick", gameLoop);
+    setupStats();
 
-    this.score = 0;
-    createjs.Sound.play("ost1", { loop: -1 });
-    main();
+    currentState = constants.MENU_STATE;
+    changeState(currentState);
 }
 
+function setupStats() {
+    stats.setMode(0); 
 
-// UTILITY METHODS
+    // align top-left
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '650px';
+    stats.domElement.style.top = '440px';
 
-// DISTANCE CHECKING METHOD
-function distance(p1: createjs.Point, p2: createjs.Point): number {
-    return Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2)));
+    document.body.appendChild(stats.domElement);
 }
-
-// CHECK COLLISION METHOD
-function checkCollision(collider: objects.GameObject) {
-    var icenPosition: createjs.Point = new createjs.Point(icen.x, icen.y);
-    var abyssPosition: createjs.Point = new createjs.Point(collider.x, collider.y);
-    var theDistance = distance(icenPosition, abyssPosition);
-    if (theDistance < ((icen.height * 0.5) + (collider.height * 0.5))) {
-        if (collider.isColliding != true) {
-            createjs.Sound.play(collider.sound);
-            if (!collider.isHarmful && collider.isActive) {
-                score += 1;
-                console.log("Score: " + score);
-                scoretext.text = "Score: " + score;
-            }
-            if (collider.isHarmful && collider.isActive) {
-                console.log("Player is hit!");
-            }
-        }
-        collider.isColliding = true;
-    } else {
-        collider.isColliding = false;
-    }
-}
-
-
-
-
 
 function gameLoop() {
-    this.document.onkeydown = keyPressed;
+    stats.begin();
 
-    ocean.update();
-
-    power.update();
-
-    icen.update();
-
-    pbulletmanager.update(icen.x,icen.y);
-
-    for (var abyss = 2; abyss >= 0; abyss--) {
-        abyssal[abyss].update();
-
-        checkCollision(abyssal[abyss]);
+    if (stateChanged) {
+        changeState(currentState);
+        stateChanged = false;
+    }
+    else {
+        currentStateFunction.update();
     }
 
-    checkCollision(power);
-
-    stage.update(); // Refreshes our stage
+    stats.end();
 }
 
 
-function keyPressed(event) {
-    switch (event.keyCode) {
-        case 16:
-            if (icen.isSlow)
-                icen.isSlow = false;
-            else
-                icen.isSlow = true;
-            console.log("Icen is slow: " + icen.isSlow);
+function changeState(state: number): void {
+    // Launch Various "screens"
+    switch (state) {
+        case constants.MENU_STATE:
+            // instantiate menu screen
+            menu = new states.Menu();
+            currentStateFunction = menu;
+            break;
+
+        case constants.PLAY_STATE:
+            // instantiate game play screen
+            gamePlay = new states.GamePlay();
+            currentStateFunction = gamePlay;
+            break;
+
+        case constants.GAME_OVER_STATE:
+            // instantiate game over screen
+            gameOver = new states.GameOver();
+            currentStateFunction = gameOver;
             break;
     }
-}
-
-
-// Our Game Kicks off in here
-function main() {
-
-    //Ocean object
-    ocean = new objects.Ocean();
-    stage.addChild(ocean);
-    stage.addChild(ocean.secondary);
-    
-
-    //Powerup object
-    power = new objects.Power();
-    stage.addChild(power);
-
-    
-    //Player Icen object
-    icen = new objects.Icen();
-    pbulletmanager = new objects.PlayerBulletManager(icen.x, icen.y);
-    for (var b = 0; b < 20; b++) {
-        pbulletmanager.bullets[b] = new objects.Bullet();
-        stage.addChild(pbulletmanager.bullets[b]);
-    }
-    
-    
-    stage.addChild(icen);
-    stage.addChild(pbulletmanager);
-    pbulletmanager.addEventListener("pressmove", pbulletmanager.mouseon);
-    pbulletmanager.addEventListener("pressup", pbulletmanager.mouseout);
-
-    
-
-    //Enemy object
-    for (var abyss = 2; abyss >= 0; abyss--) {
-        abyssal[abyss] = new objects.Abyssal();
-        stage.addChild(abyssal[abyss]);
-    }
-
-    stage.addChild(ocean.cloudoverlay);
-    stage.addChild(ocean.secondarycloudoverlay);
-
-    scoretext= new createjs.Text("Score: " + score, "26px Arial", "#FFFF00");
-    stage.addChild(scoretext);
-    scoretext.x = 100;
-    scoretext.y = 50;
 }
