@@ -12,6 +12,7 @@ var states;
     var GamePlay = (function () {
         function GamePlay() {
             this.abyssal = [];
+            this.ebulletmanager = [];
             // Instantiate Game Container
             this.game = new createjs.Container();
             //Ocean object
@@ -23,17 +24,23 @@ var states;
             this.game.addChild(this.power);
             //Player Icen object
             this.icen = new objects.Icen();
-            this.pbulletmanager = new objects.PlayerBulletManager(this.icen.x, this.icen.y);
+            this.pbulletmanager = new objects.BulletManager(this.icen.x, this.icen.y, this.icen.timer, this.icen.bulletindex);
             for (var b = 0; b < 20; b++) {
                 this.pbulletmanager.bullets[b] = new objects.Bullet();
                 this.game.addChild(this.pbulletmanager.bullets[b]);
             }
             this.game.addChild(this.icen);
             this.game.addChild(this.pbulletmanager);
-            this.pbulletmanager.addEventListener("pressmove", this.pbulletmanager.mouseon);
-            this.pbulletmanager.addEventListener("pressup", this.pbulletmanager.mouseout);
+            this.icen.addEventListener("pressmove", this.icen.mouseon);
+            this.icen.addEventListener("pressup", this.icen.mouseout);
             for (var abyss = 2; abyss >= 0; abyss--) {
                 this.abyssal[abyss] = new objects.Abyssal();
+                this.ebulletmanager[abyss] = new objects.BulletManager(this.abyssal[abyss].x, this.abyssal[abyss].y, this.abyssal[abyss].timer, this.abyssal[abyss].bulletindex);
+                for (var b = 0; b < 20; b++) {
+                    this.ebulletmanager[abyss].bullets[b] = new objects.Bullet();
+                    this.ebulletmanager[abyss].bullets[b].isFriendly = false;
+                    this.game.addChild(this.ebulletmanager[abyss].bullets[b]);
+                }
                 this.game.addChild(this.abyssal[abyss]);
             }
             this.game.addChild(this.ocean.cloudoverlay);
@@ -74,13 +81,13 @@ var states;
             this.ocean.update();
             this.power.update();
             this.icen.update();
-            this.pbulletmanager.update(this.icen.x, this.icen.y);
+            this.pbulletmanager.update(this.icen.x, this.icen.y, this.icen.canfire, this.icen.timer, this.icen.bulletindex, this.icen.getdx());
             for (var abyss = 2; abyss >= 0; abyss--) {
                 this.abyssal[abyss].update();
+                this.ebulletmanager[abyss].update(this.abyssal[abyss].x, this.abyssal[abyss].y, this.abyssal[abyss].isFiring, this.abyssal[abyss].timer, this.abyssal[abyss].bulletindex, this.icen.getdx());
                 this.checkCollision(this.abyssal[abyss]);
             }
             this.checkCollision(this.power);
-            console.log("Player X: " + this.icen.x + " Y: " + this.icen.y);
             this.scoreboard.update();
             if (this.scoreboard.lives < 1) {
                 this.scoreboard.active = false;
