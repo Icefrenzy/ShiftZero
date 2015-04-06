@@ -19,6 +19,9 @@ var states;
             //Ocean object
             this.ocean = new objects.Ocean();
             this.game.addChild(this.ocean);
+            this.game.addChild(this.ocean.secondary);
+            this.game.addChild(this.ocean.cloudoverlay);
+            this.game.addChild(this.ocean.secondarycloudoverlay);
             //Game Over Label
             this.mailPilotLabel = new objects.Label(320, 40, "Shift Zero");
             this.mailPilotLabel.font = "60px Consolas";

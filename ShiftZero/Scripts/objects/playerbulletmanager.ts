@@ -80,8 +80,8 @@
                     createjs.Sound.play(this.sound);
                     console.log("Can Fire");
                     if (this.bullets[this.bulletindex].isActive == false) {
-                        this.bullets[this.bulletindex].x = this.x;
-                        this.bullets[this.bulletindex].y = this.y;
+                        this.bullets[this.bulletindex].x = this.x+25;
+                        this.bullets[this.bulletindex].y = this.y+13;
                         this.bullets[this.bulletindex].isActive = true;
                         console.log("Bullet[" + this.bulletindex + "] X: " + this.bullets[this.bulletindex].x + " Y: " + this.bullets[this.bulletindex].y + " isActive: " + this.bullets[this.bulletindex].isActive);
                     }

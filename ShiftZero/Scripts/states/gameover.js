@@ -19,6 +19,9 @@ var states;
             //Ocean object
             this.ocean = new objects.Ocean();
             this.game.addChild(this.ocean);
+            this.game.addChild(this.ocean.secondary);
+            this.game.addChild(this.ocean.cloudoverlay);
+            this.game.addChild(this.ocean.secondarycloudoverlay);
             //Game Over Label
             this.gameOverLabel = new objects.Label(320, 40, "GAME OVER");
             this.gameOverLabel.font = "60px Consolas";
