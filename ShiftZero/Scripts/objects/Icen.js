@@ -27,6 +27,7 @@ var objects;
             this.timer = 0;
             this.bulletindex = 0;
             this._dx = 8;
+            this.shootsfx = "fire";
             createjs.Sound.play("engine", { loop: -1 });
         }
         Icen.prototype.mouseon = function (event) {
@@ -48,6 +49,7 @@ var objects;
             }
             if (this.canfire) {
                 if (this.timer > 0.1) {
+                    createjs.Sound.play(this.shootsfx);
                     this.timer = 0;
                     this.bulletindex += 1;
                 }

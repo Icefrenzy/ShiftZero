@@ -44,17 +44,23 @@ var manifest = [
     { id: "ocean", src: "assets/images/Ocean_Layer1.png" },
     { id: "clouds", src: "assets/images/Cloud_Layer1.png" },
     { id: "icen", src: "assets/images/Icen.png" },
-    { id: "playButton", src: "assets/images/playButton.png" },
+    { id: "easyButton", src: "assets/images/EasyBtn.png" },
+    { id: "hardButton", src: "assets/images/HardBtn.png" },
     { id: "tryAgainButton", src: "assets/images/tryAgainButton.png" },
+    { id: "companylogo", src: "assets/images/company.png" },
     { id: "bullet", src: "assets/images/Bullet.png" },
     { id: "manager", src: "assets/images/Manager.png" },
     { id: "plane", src: "assets/images/plane.png" },
     { id: "engine", src: "assets/audio/engines.ogg" },
     { id: "engineslow", src: "assets/audio/engineslow.ogg" },
     { id: "pick", src: "assets/audio/pickup.ogg" },
-    { id: "ost1", src: "assets/audio/OST1.ogg" },
+    { id: "ost1", src: "assets/audio/ost1.ogg" },
+    { id: "introst", src: "assets/audio/intro.ogg" },
+    { id: "overost", src: "assets/audio/gameover.ogg" },
     { id: "fire", src: "assets/audio/50cal.ogg" },
-    { id: "hurt", src: "assets/audio/hurt.ogg" }
+    { id: "hurt", src: "assets/audio/hurt.ogg" },
+    { id: "bullethurt", src: "assets/audio/bullethit.ogg" },
+    { id: "shiftlogo", src: "assets/images/ShiftZeroLogo.png" }
 ];
 
 
@@ -89,7 +95,7 @@ function setupStats() {
     stats.domElement.style.left = '650px';
     stats.domElement.style.top = '440px';
 
-    document.body.appendChild(stats.domElement);
+    //document.body.appendChild(stats.domElement);
 }
 
 function gameLoop() {

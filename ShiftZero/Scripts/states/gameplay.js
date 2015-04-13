@@ -15,6 +15,8 @@ var states;
             this.ebulletmanager = [];
             // Instantiate Game Container
             this.game = new createjs.Container();
+            this.hittimer = 0;
+            this.hittimerlimit = 0.5;
             //Ocean object
             this.ocean = new objects.Ocean();
             this.game.addChild(this.ocean);
@@ -47,6 +49,7 @@ var states;
             this.game.addChild(this.ocean.secondarycloudoverlay);
             // Instantiate Scoreboard
             this.scoreboard = new objects.ScoreBoard(this.game);
+            createjs.Sound.play("ost1", { loop: -1 });
             // Add Game Container to Stage
             stage.addChild(this.game);
         } // Constructor
@@ -59,15 +62,33 @@ var states;
             var icenPosition = new createjs.Point(this.icen.x, this.icen.y);
             var abyssPosition = new createjs.Point(collider.x, collider.y);
             var theDistance = this.distance(icenPosition, abyssPosition);
+            for (var b = 0; b < 20; b++) {
+                var bulletPosition = new createjs.Point(this.pbulletmanager.bullets[b].x, this.pbulletmanager.bullets[b].y);
+                var bulletDistance = this.distance(bulletPosition, abyssPosition);
+                if (bulletDistance < ((this.pbulletmanager.bullets[b].height * 0.5) + (collider.height * 0.5))) {
+                    if (collider.isColliding != true) {
+                        if (collider.isActive && !collider.isFriendly) {
+                            createjs.Sound.play("hurt");
+                            this.scoreboard.score += 50;
+                            collider.isActive = false;
+                            this.pbulletmanager.bullets[b].isActive = false;
+                        }
+                    }
+                }
+            }
             if (theDistance < ((this.icen.height * 0.5) + (collider.height * 0.5))) {
                 if (collider.isColliding != true) {
-                    createjs.Sound.play(collider.sound);
                     if (!collider.isHarmful && collider.isActive) {
+                        createjs.Sound.play(collider.sound);
                         this.scoreboard.score += 100;
                     }
-                    if (collider.isHarmful && collider.isActive) {
-                        console.log("Player is hit!");
-                        this.scoreboard.lives--;
+                    if (this.hittimer >= this.hittimerlimit) {
+                        this.hittimer = 0;
+                        if (collider.isHarmful && collider.isActive) {
+                            createjs.Sound.play("bullethurt");
+                            console.log("Player is hit!");
+                            this.scoreboard.lives--;
+                        }
                     }
                 }
                 collider.isColliding = true;
@@ -77,6 +98,7 @@ var states;
             }
         };
         GamePlay.prototype.update = function () {
+            this.hittimer += 1 / 60;
             //this.document.onkeydown = this.keyPressed;
             this.ocean.update();
             this.power.update();
@@ -86,6 +108,9 @@ var states;
                 this.abyssal[abyss].update();
                 this.ebulletmanager[abyss].update(this.abyssal[abyss].x, this.abyssal[abyss].y, this.abyssal[abyss].isFiring, this.abyssal[abyss].timer, this.abyssal[abyss].bulletindex, this.icen.getdx());
                 this.checkCollision(this.abyssal[abyss]);
+                for (var b = 0; b < 20; b++) {
+                    this.checkCollision(this.ebulletmanager[abyss].bullets[b]);
+                }
             }
             this.checkCollision(this.power);
             this.scoreboard.update();

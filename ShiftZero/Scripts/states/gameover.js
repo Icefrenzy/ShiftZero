@@ -38,11 +38,13 @@ var states;
             this.tryAgainButton = new objects.Button(320, 280, "tryAgainButton");
             this.tryAgainButton.on("click", this.tryAgainClicked, this);
             this.game.addChild(this.tryAgainButton);
+            createjs.Sound.play("overost", { loop: -1 });
             // Add Game Container to Stage
             stage.addChild(this.game);
         } // Constructor
         GameOver.prototype.tryAgainClicked = function () {
             this.tryAgain = true;
+            createjs.Sound.stop();
         };
         // PUBLIC METHODS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         GameOver.prototype.update = function () {
@@ -50,7 +52,7 @@ var states;
             if (this.tryAgain) {
                 this.game.removeAllChildren();
                 stage.removeChild(this.game);
-                currentState = constants.PLAY_STATE;
+                currentState = constants.MENU_STATE;
                 stateChanged = true;
             }
             stage.update(); // Refreshes our stage

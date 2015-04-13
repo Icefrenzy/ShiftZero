@@ -61,18 +61,20 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\images\1945.bmp" />
+    <Content Include="assets\images\company.png" />
     <Content Include="assets\images\Abyss1.png" />
     <Content Include="assets\images\AmmoPick.png" />
     <Content Include="assets\images\Bullet.png" />
     <Content Include="assets\images\cloud.png" />
     <Content Include="assets\images\Cloud_Layer1.png" />
+    <Content Include="assets\images\EasyBtn.png" />
+    <Content Include="assets\images\HardBtn.png" />
     <Content Include="assets\images\Icen.png" />
     <Content Include="assets\images\island.png" />
     <Content Include="assets\images\Manager.png" />
     <Content Include="assets\images\Ocean_Layer1.png" />
     <Content Include="assets\images\plane.png" />
-    <Content Include="assets\images\playButton.png" />
+    <Content Include="assets\images\ShiftZeroLogo.png" />
     <Content Include="assets\images\sideplane.gif" />
     <Content Include="assets\images\tryAgainButton.png" />
     <Content Include="css\game.css" />
@@ -86,15 +88,18 @@
     <Content Include="Scripts\objects\gameobject.js" />
     <Content Include="Scripts\objects\ocean.js" />
     <Content Include="packages.config" />
-    <Content Include="assets\audio\engines.ogg" />
     <Content Include="assets\audio\engineslow.ogg" />
     <Content Include="assets\audio\pickup.ogg" />
-    <Content Include="assets\audio\OST1.ogg" />
-    <Content Include="assets\audio\50cal.ogg" />
-    <Content Include="assets\audio\hurt.ogg" />
     <Content Include="Scripts\states\gameover.js.map" />
     <Content Include="Scripts\states\gameplay.js.map" />
     <Content Include="Scripts\states\menu.js.map" />
+    <Content Include="assets\audio\bullethit.ogg" />
+    <Content Include="assets\audio\gameover.ogg" />
+    <Content Include="assets\audio\intro.ogg" />
+    <Content Include="assets\audio\ost1.ogg" />
+    <Content Include="assets\audio\engine.ogg" />
+    <Content Include="assets\audio\50cal.ogg" />
+    <Content Include="assets\audio\hurt.ogg" />
     <None Include="Scripts\_references.js" />
     <Content Include="Scripts\states\gameover.js" />
     <Content Include="Scripts\states\gameplay.js" />

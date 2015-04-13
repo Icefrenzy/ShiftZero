@@ -11,6 +11,8 @@
             this.x = 1000;
             this.y = 1000;
         }
+
+
     }
 
     // Player Bullet Manager CLASS
@@ -42,6 +44,7 @@
             // Player Bullets
             for (var b = 0; b < 20; b++){
                 this._checkBounds(this.bullets[b]);
+
                 if (this.bullets[b].isActive) {
                     if (this.bullets[b].isFriendly)
                         this.bullets[b].x += _dx;
@@ -54,9 +57,8 @@
             }
 
             if (canfire) {
-                console.log("Player can fire! Timer is: " + timer + ", index is: " + bulletindex);
+                //console.log("Player can fire! Timer is: " + timer + ", index is: " + bulletindex);
                 if (timer > 0.09) {
-                    createjs.Sound.play(this.sound);
                     console.log("Can Fire");
                     if (this.bullets[bulletindex].isActive == false) {
                         this.bullets[bulletindex].x = px + 25;

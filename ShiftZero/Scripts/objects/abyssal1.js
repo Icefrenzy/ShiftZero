@@ -20,6 +20,7 @@ var objects;
             this.isFiring = false;
             this.timer = 0;
             this.bulletindex = 0;
+            this.shootsfx = "fire";
         }
         // PUBLIC METHODS ++++++++++++++++++++++++++++++++++++++++++
         Abyssal.prototype.update = function () {
@@ -29,6 +30,7 @@ var objects;
             this.isFiring = true;
             if (this.isFiring) {
                 if (this.timer > 0.5) {
+                    createjs.Sound.play(this.shootsfx);
                     this.timer = 0;
                     this.bulletindex += 1;
                 }
@@ -36,12 +38,16 @@ var objects;
             if (this.bulletindex == 19) {
                 this.bulletindex = 0;
             }
+            if (!this.isActive) {
+                this.reset();
+            }
         };
         Abyssal.prototype.getdx = function () {
             return this._dx;
         };
         // Reset position of island to the top
         Abyssal.prototype.reset = function () {
+            this.isActive = true;
             this.isFiring = false;
             this.timer = 0;
             this.x = 800 + this.width;

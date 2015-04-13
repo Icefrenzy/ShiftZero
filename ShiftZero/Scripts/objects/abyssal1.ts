@@ -4,6 +4,7 @@
         public isFiring: boolean;
         public bulletindex: number;
         public timer: number;
+        private shootsfx: string;
 
         // CONSTRUCTOR
         constructor() {
@@ -16,6 +17,7 @@
             this.isFiring = false;
             this.timer = 0;
             this.bulletindex = 0;
+            this.shootsfx = "fire";
         }
 
         // PUBLIC METHODS ++++++++++++++++++++++++++++++++++++++++++
@@ -26,6 +28,7 @@
             this.isFiring = true;
             if (this.isFiring) {
                 if (this.timer > 0.5) {
+                    createjs.Sound.play(this.shootsfx);
                     this.timer = 0;
                     this.bulletindex += 1;
                 }
@@ -33,6 +36,10 @@
 
             if (this.bulletindex == 19) {
                 this.bulletindex = 0;
+            }
+
+            if (!this.isActive) {
+                this.reset();
             }
         }
 
@@ -42,6 +49,7 @@
 
         // Reset position of island to the top
         public reset() {
+            this.isActive = true;
             this.isFiring = false;
             this.timer = 0;
             this.x = 800+this.width;

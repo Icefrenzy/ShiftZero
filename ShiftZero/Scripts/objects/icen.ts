@@ -15,6 +15,7 @@ module objects {
         private _soundOutdated: boolean;
         private _wasSlow: boolean;
         private _dx: number;
+        private shootsfx: string;
 
         // CONSTRUCTOR
         constructor() {
@@ -34,6 +35,7 @@ module objects {
             this.timer = 0;
             this.bulletindex = 0;
             this._dx = 8;
+            this.shootsfx = "fire";
             createjs.Sound.play("engine", { loop: -1 });
         }
 
@@ -57,6 +59,7 @@ module objects {
             }
             if (this.canfire) {
                 if (this.timer > 0.1) {
+                    createjs.Sound.play(this.shootsfx);
                     this.timer = 0;
                     this.bulletindex += 1;
                 }
