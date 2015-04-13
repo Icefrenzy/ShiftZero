@@ -23,9 +23,13 @@ var objects;
         Power.prototype.update = function () {
             this.x -= this._dx;
             this._checkBounds();
+            if (!this.isActive) {
+                this.reset();
+            }
         };
         // Reset position of powerup to the top
         Power.prototype.reset = function () {
+            this.isActive = true;
             this.x = 800;
             //this.y = 0;
             //this.x = -this.width;

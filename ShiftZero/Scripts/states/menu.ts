@@ -37,7 +37,7 @@ module states {
             this.game.addChild(this.ocean.secondarycloudoverlay);
 
             this.gamelogo = new createjs.Bitmap(assetLoader.getResult("shiftlogo"));
-            this.gamelogo.x = this.gamelogo.x * 0.5 + 150;
+            this.gamelogo.x = 200;
             this.gamelogo.y = this.gamelogo.y * 0.5;
             this.game.addChild(this.gamelogo);
 
@@ -59,7 +59,7 @@ module states {
 
 
             //Play Button
-            this.playButton = new objects.Button(320, 280, "easyButton");
+            this.playButton = new objects.Button(400, 280, "easyButton");
             this.playButton.on("click", this.playClicked, this);
             this.game.addChild(this.playButton);
             createjs.Sound.play("introst", { loop: -1 });

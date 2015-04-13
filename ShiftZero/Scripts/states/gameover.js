@@ -23,19 +23,19 @@ var states;
             this.game.addChild(this.ocean.cloudoverlay);
             this.game.addChild(this.ocean.secondarycloudoverlay);
             //Game Over Label
-            this.gameOverLabel = new objects.Label(320, 40, "GAME OVER");
-            this.gameOverLabel.font = "60px Consolas";
+            this.gameOverLabel = new objects.Label(420, 40, "GAME OVER");
+            this.gameOverLabel.font = "60px Rockwell";
             this.gameOverLabel.regX = this.gameOverLabel.getMeasuredWidth() * 0.5;
             this.gameOverLabel.regY = this.gameOverLabel.getMeasuredLineHeight() * 0.5;
             this.game.addChild(this.gameOverLabel);
             //Final Score Label
-            this.finalScoreLabel = new objects.Label(320, 120, ("FINAL SCORE: " + currentScore));
+            this.finalScoreLabel = new objects.Label(420, 120, ("FINAL SCORE: " + currentScore));
             this.game.addChild(this.finalScoreLabel);
             //High Score Label
-            this.highScoreLabel = new objects.Label(320, 200, ("HIGH SCORE: " + highScore));
+            this.highScoreLabel = new objects.Label(420, 200, ("HIGH SCORE: " + highScore));
             this.game.addChild(this.highScoreLabel);
             //Try Again Button
-            this.tryAgainButton = new objects.Button(320, 280, "tryAgainButton");
+            this.tryAgainButton = new objects.Button(420, 280, "tryAgainButton");
             this.tryAgainButton.on("click", this.tryAgainClicked, this);
             this.game.addChild(this.tryAgainButton);
             createjs.Sound.play("overost", { loop: -1 });

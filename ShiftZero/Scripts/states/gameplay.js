@@ -81,6 +81,8 @@ var states;
                     if (!collider.isHarmful && collider.isActive) {
                         createjs.Sound.play(collider.sound);
                         this.scoreboard.score += 100;
+                        this.power.reset();
+                        collider.isActive = false;
                     }
                     if (this.hittimer >= this.hittimerlimit) {
                         this.hittimer = 0;

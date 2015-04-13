@@ -13,11 +13,12 @@
             this.lives = 5;
             this.active = true;
 
-            this._livesLabel = new createjs.Text("Lives: ", "40px Consolas", "#ffff00");
+            this._livesLabel = new createjs.Text("Lives: ", "40px Rockwell", "#ffff00");
+            this._livesLabel.x = 20;
             game.addChild(this._livesLabel);
 
-            this._scoreLabel = new createjs.Text("Score: ", "40px Consolas", "#ffff00");
-            this._scoreLabel.x = 400;
+            this._scoreLabel = new createjs.Text("Score: ", "40px Rockwell", "#ffff00");
+            this._scoreLabel.x = 570;
             game.addChild(this._scoreLabel);
 
         }
