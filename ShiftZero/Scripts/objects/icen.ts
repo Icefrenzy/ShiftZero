@@ -50,6 +50,7 @@ module objects {
         // PUBLIC METHODS
         public update() {
             this.timer += 1 / 60;
+
             if (this.isSlow == true) {
                 this._horizontalspeed = 0.3;
                 this._verticalspeed = 0.2;

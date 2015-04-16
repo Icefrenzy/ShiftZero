@@ -10,6 +10,7 @@
 /// <reference path="objects/icen.ts" />
 /// <reference path="objects/power.ts" />
 /// <reference path="objects/abyssal1.ts" />
+/// <reference path="objects/abyssal2.ts" />
 /// <reference path="objects/ocean.ts" />
 /// <reference path="objects/playerbulletmanager.ts" />
 /// <reference path="objects/button.ts" />
@@ -33,18 +34,21 @@ var gameOver;
 var menu;
 var manifest = [
     { id: "abyss1", src: "assets/images/Abyss1.png" },
+    { id: "abyss2", src: "assets/images/Abyss2.png" },
     { id: "power", src: "assets/images/AmmoPick.png" },
     { id: "ocean", src: "assets/images/Ocean_Layer1.png" },
     { id: "clouds", src: "assets/images/Cloud_Layer1.png" },
     { id: "icen", src: "assets/images/Icen.png" },
     { id: "easyButton", src: "assets/images/EasyBtn.png" },
     { id: "hardButton", src: "assets/images/HardBtn.png" },
+    { id: "manualButton", src: "assets/images/ManualBtn.png" },
     { id: "tryAgainButton", src: "assets/images/tryAgainButton.png" },
     { id: "companylogo", src: "assets/images/company.png" },
     { id: "bullet", src: "assets/images/Bullet.png" },
+    { id: "bullet2", src: "assets/images/Bullet2.png" },
     { id: "manager", src: "assets/images/Manager.png" },
     { id: "plane", src: "assets/images/plane.png" },
-    { id: "engine", src: "assets/audio/engines.ogg" },
+    { id: "engine", src: "assets/audio/engine.ogg" },
     { id: "engineslow", src: "assets/audio/engineslow.ogg" },
     { id: "pick", src: "assets/audio/pickup.ogg" },
     { id: "ost1", src: "assets/audio/ost1.ogg" },
@@ -53,7 +57,9 @@ var manifest = [
     { id: "fire", src: "assets/audio/50cal.ogg" },
     { id: "hurt", src: "assets/audio/hurt.ogg" },
     { id: "bullethurt", src: "assets/audio/bullethit.ogg" },
-    { id: "shiftlogo", src: "assets/images/ShiftZeroLogo.png" }
+    { id: "shiftlogo", src: "assets/images/ShiftZeroLogo.png" },
+    { id: "wallpaper", src: "assets/images/BG.png" },
+    { id: "manual", src: "assets/images/manual.png" }
 ];
 function Preload() {
     assetLoader = new createjs.LoadQueue(); // create a new preloader

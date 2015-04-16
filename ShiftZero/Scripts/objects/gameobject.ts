@@ -9,12 +9,15 @@
         public isHarmful: boolean;
         public isFriendly: boolean;
         public isActive: boolean;
+        public health: number;
         protected _dy: number;
         protected _dx: number;
 
         // CONSTRUCTOR
         constructor(assetString: string) {
             super(assetLoader.getResult(assetString));
+
+            this.health = 1;
 
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;

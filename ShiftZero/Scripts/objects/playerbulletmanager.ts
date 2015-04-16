@@ -1,9 +1,10 @@
 ﻿module objects {
 
     export class Bullet extends objects.GameObject{
+
         // CONSTRUCTOR
-        constructor() {
-            super("bullet");
+        constructor(sprite) {
+            super(sprite);
             this.sound = "fire";
             this.isHarmful = true;
             this.isFriendly = true;
@@ -53,6 +54,8 @@
                 } else {
                     this.bullets[b].x = 1000;
                     this.bullets[b].y = 1000;
+                    this.bullets[b].scaleX = 1;
+                    this.bullets[b].scaleY = 1;
                 }
             }
 

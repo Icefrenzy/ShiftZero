@@ -61,6 +61,9 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\images\BG.png" />
+    <Content Include="assets\images\Bullet2.png" />
+    <Content Include="assets\images\Abyss2.png" />
     <Content Include="assets\images\company.png" />
     <Content Include="assets\images\Abyss1.png" />
     <Content Include="assets\images\AmmoPick.png" />
@@ -72,6 +75,8 @@
     <Content Include="assets\images\Icen.png" />
     <Content Include="assets\images\island.png" />
     <Content Include="assets\images\Manager.png" />
+    <Content Include="assets\images\manual.png" />
+    <Content Include="assets\images\ManualBtn.png" />
     <Content Include="assets\images\Ocean_Layer1.png" />
     <Content Include="assets\images\plane.png" />
     <Content Include="assets\images\ShiftZeroLogo.png" />
@@ -124,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\game.ts" />
+    <TypeScriptCompile Include="Scripts\objects\abyssal2.ts" />
     <TypeScriptCompile Include="Scripts\objects\abyssal1.ts" />
     <TypeScriptCompile Include="Scripts\objects\button.ts" />
     <TypeScriptCompile Include="Scripts\objects\constants.ts" />
